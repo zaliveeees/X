@@ -1,0 +1,196 @@
+local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/jensonhirst/Orion/main/source')))()
+
+local Window = OrionLib:MakeWindow({
+    IntroText = "GUI by zaliveeee",
+    Name = "ZaliGUI | by zaliveeee",
+    HidePremium = false,
+    SaveConfig = true,
+    ConfigFolder = "OrionTest",
+    Icon = "https://avatars.mds.yandex.net/i?id=ffa1e92e8483a36b8a29353d4b35a616a20bc282-13308716-images-thumbs&n=13"
+})
+
+local AutoFarmTab = Window:MakeTab({
+    Name = "Auto Farm",
+    Icon = "rbxassetid://10723356676",
+    PremiumOnly = false
+})
+
+local AutoFarmSection = AutoFarmTab:AddSection({
+    Name = "Auto Farm 💵"
+})
+
+AutoFarmTab:AddButton({
+    Name = "Start Auto Farm",
+    Callback = function()
+        spawn(function()
+            repeat wait() until game:IsLoaded()
+            
+            local player = game.Players.LocalPlayer
+            local humanoid = player.Character and player.Character:FindFirstChild("HumanoidRootPart")
+            
+            function teleportTo(pos)
+                if humanoid then
+                    humanoid.CFrame = CFrame.new(pos)
+                end
+            end
+            
+            function collectMoney()
+                for _, v in pairs(game:GetService("Workspace").Ignored:GetChildren()) do
+                    if v:IsA("Part") and v:FindFirstChild("TouchInterest") then
+                        teleportTo(v.Position)
+                        wait(0.5)
+                    end
+                end
+            end
+            
+            function autoCare()
+                local petNeeds = {"Sleep", "Shower", "Hunger", "Thirst"}
+                for _, need in pairs(petNeeds) do
+                    local target = game:GetService("Workspace"):FindFirstChild(need)
+                    if target then
+                        teleportTo(target.Position)
+                        wait(2)
+                    end
+                end
+            end
+            
+            while true do
+                collectMoney()
+                autoCare()
+                wait(10)
+            end
+        end)
+    end
+})
+
+AutoFarmTab:AddToggle({
+    Name = "Enable Auto Farm",
+    Default = false,
+    Callback = function(state)
+        if state then
+            OrionLib:MakeNotification({
+                Name = "Auto Farm",
+                Content = "Enabled",
+                Image = "rbxassetid://4483345998",
+                Time = 5
+            })
+        else
+            OrionLib:MakeNotification({
+                Name = "Auto Farm",
+                Content = "Disabled",
+                Image = "rbxassetid://4483345998",
+                Time = 5
+            })
+        end
+    end    
+})
+
+local TradeScamTab = Window:MakeTab({
+    Name = "Trade-Scam🤩",
+    Icon = "rbxassetid://10723356676",
+    PremiumOnly = false
+})
+
+local TradeSection = TradeScamTab:AddSection({
+    Name = "Trade Scam"
+})
+
+local playerName = ""
+
+TradeScamTab:AddTextbox({
+    Name = "Freeze Player😇",
+    Default = "",
+    TextDisappear = true,
+    Callback = function(value)
+        playerName = value
+        OrionLib:MakeNotification({
+            Name = "Name Set",
+            Content = "You entered: " .. playerName,
+            Image = "rbxassetid://4483345998",
+            Time = 5
+        })
+    end    
+})
+
+TradeScamTab:AddButton({
+    Name = "On",
+    Callback = function()
+        OrionLib:MakeNotification({
+            Name = "Freeze Player",
+            Content = "On💚",
+            Image = "rbxassetid://4483345998",
+            Time = 5
+        })
+    end    
+})
+
+TradeScamTab:AddButton({
+    Name = "Off",
+    Callback = function()
+        OrionLib:MakeNotification({
+            Name = "Freeze Player",
+            Content = "Off❗",
+            Image = "rbxassetid://4483345998",
+            Time = 5
+        })
+    end    
+})
+
+TradeScamTab:AddToggle({
+    Name = "Auto Accept Trade✅",
+    Default = false,
+    Callback = function(state)
+        if state then
+            OrionLib:MakeNotification({
+                Name = "Trade Accepted",
+                Content = "Auto Accept: On💚",
+                Image = "rbxassetid://4483345998",
+                Time = 5
+            })
+        else
+            OrionLib:MakeNotification({
+                Name = "Trade Disabled",
+                Content = "Auto Accept: Off❗",
+                Image = "rbxassetid://4483345998",
+                Time = 5
+            })
+        end
+    end    
+})
+
+local MainTab = Window:MakeTab({
+    Name = "Main",
+    Icon = "rbxassetid://10723356676",
+    PremiumOnly = false
+})
+
+MainTab:AddToggle({
+    Name = "FreezeTrade",
+    Default = false,
+    Callback = function(v)
+        print("Dupe: " .. tostring(v))
+    end
+})
+
+MainTab:AddSlider({
+    Name = "Module",
+    Min = 2,
+    Max = 4,
+    Default = 1,
+    Callback = function(v)
+        print("Slider 1 set to: " .. tostring(v))
+    end
+})
+
+MainTab:AddButton({
+    Name = "By zaliveeee https://discord.gg/25HpqwgDak",
+    Callback = function()
+        setclipboard("https://discord.gg/25HpqwgDak")
+        OrionLib:MakeNotification({
+            Name = "Copied!",
+            Content = "Discord link copied to clipboard.",
+            Image = "rbxassetid://4483345998",
+            Time = 5
+        })
+    end
+})
